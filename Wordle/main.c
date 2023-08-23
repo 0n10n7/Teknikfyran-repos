@@ -61,14 +61,17 @@ int main(){
                 printf("\x1b[32;49m%c",wordleWord[i]);
             }
             // checks which letters are almost right
-            for(int j = 0; j <5; j++){
-                if(wordleWord[i]==attempt[i]){
-                printf("\x1b[32;49m%c",wordleWord[i]);
+            else{
+                for(int j = 0; j <5; j++){
+                    if(wordleWord[i]==attempt[j] && wordleWord[i]!=attempt[i]){
+                        printf("\x1b[33;49m%c",wordleWord[i]);
+                    }
+                }
             }
-            }
-            // handles completly wrong words
+            
+            // handles completly wrong letters
             if (wrong){
-                printf("\x1b[0m");
+                printf("\x1b[0m%c",attempt[i]);
             }
         }
         round ++;
