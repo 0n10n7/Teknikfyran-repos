@@ -4,7 +4,7 @@
 #include <stdbool.h> 
 #include <time.h>
 
-#define NUM_ENTRIES 14855
+#define NUM_ENTRIES 353
 
 int ConvertStringToInt(char string[],int length){
     int returnVal=0;
