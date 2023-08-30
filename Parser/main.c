@@ -6,6 +6,7 @@
 
 #define NUM_ENTRIES 353
 
+//Kod som kanske inte längre behövs
 int ConvertStringToInt(char string[],int length){
     int returnVal=0;
     for (int i = length;i>0;i--){
@@ -17,41 +18,99 @@ int ConvertStringToInt(char string[],int length){
     }
     return returnVal;
 }
+bool SearchArray(char goal[],char target[]){
+    int i=0;
+    while(true){
+        if(goal[i]=='\0'&&target[i]=='\0'){
+            return true;
+        }
+        else if(goal[i]=='\0'||target[i]=='\0'){
+            return false;
+        }
+        if(goal[i]!=target[i]){
+            return false;
+        }
+        i++;
+    }
+}
+
+typedef struct relationship
+{
+    char* name;
+    int weight;
+}relationship;
+
+typedef struct character
+{
+    char* name;
+    relationship relationships[50];
+}character;
+
 
 int main(){
     char characters[NUM_ENTRIES][20] = { 0 };
-
+    int currentCharacterIndex = 0;
     
-
-    char lineContent[5];
+    char source[20] = { 0 };
+    char target[20] = { 0 };
+    char weightString[3]= { 0 };
+    int weight = 0;
+    char lineChar = ' ';
     int lineNumber = 0;
+    int index = 0;
+    int type = 0; //om type är 0 så är det source som arbetas med, 1 är target och 2 är weight
 
     FILE* fptr = fopen("thrones.csv", "r");
     //Läser in filen rad för rad
-    while (fscanf(fptr, "%s", lineContent) != EOF) {
-        int index=0;
-        char source[20] = { 0 };
-        char target[20] = { 0 };
-        char weight [3];
-        for(int i = 0; i<3;i++){
-            char currentChar = lineContent[index];
-            while (currentChar != ',' || currentChar !='\0')
+    while (fscanf(fptr, "%c", lineChar) != EOF) {
+        index++;
+        if(lineChar=='\0'){
+            //Gör loopen redo för nästa rad
+            lineNumber++;
+            type=0;
+            for (int i = 0; i < 20; i++)
             {
-                if(i==0){ //source
-                    source[index]=currentChar;
-                }
-                else if(i == 1){ //target
-                    target[index]=currentChar;
-                }
-                else if(i == 2){ //weight
-
-                }
-                index++;
+                source[i]=0;
+                target[i]=0;
             }
-            index++;
+            for (int i = 0; i<3;i++){
+                weightString[i]=0;
+            }
+            
         }
-        memcpy(characters[lineNumber], lineContent, 5);
+        else if(lineChar==','){
+
+            if(type==0){//source
+                source[index]='\0';
+            }
+            else if (type==1)//target
+            {
+                target[index]='\0';
+            }
+            else if (type==2)//
+            {
+                weightString[index]='\0';
+            }
+            type++;
+        }
+        if(type==0){//source
+            source[index]=lineChar;
+        }
+        else if (type==1)//target
+        {
+            target[index]=lineChar;
+        }
+        else if (type==2)//
+        {
+            source[index]=lineChar;
+        }
+        
         characters[lineNumber][5] = '\0'; //positionen måste ändras
+
+        for(int i = 0; i<20; i++){
+            source[i]=0;
+            target[i]=0;
+        }
         lineNumber++;
     }
     
