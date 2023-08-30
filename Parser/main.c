@@ -6,7 +6,6 @@
 
 #define NUM_ENTRIES 353
 
-//Kod som kanske inte längre behövs
 int ConvertStringToInt(char string[],int length){
     int returnVal=0;
     for (int i = length;i>0;i--){
@@ -18,7 +17,7 @@ int ConvertStringToInt(char string[],int length){
     }
     return returnVal;
 }
-bool SearchArray(char goal[],char target[]){
+bool SearchArray(char goal[],char target[]){//fel fixa
     int i=0;
     while(true){
         if(goal[i]=='\0'&&target[i]=='\0'){
@@ -34,17 +33,17 @@ bool SearchArray(char goal[],char target[]){
     }
 }
 
-typedef struct relationship
+typedef struct Relationship
 {
     char* name;
     int weight;
-}relationship;
+}Relationship;
 
-typedef struct character
+typedef struct Character
 {
-    char* name;
-    relationship relationships[50];
-}character;
+    char name[20];
+    Relationship relationships[50];
+}Character;
 
 
 int main(){
@@ -63,8 +62,15 @@ int main(){
     FILE* fptr = fopen("thrones.csv", "r");
     //Läser in filen rad för rad
     while (fscanf(fptr, "%c", lineChar) != EOF) {
+        Character character;
+        Relationship relationship;
         index++;
         if(lineChar=='\0'){
+            //Matar in all data som samlats från raden till korrekt plats
+            if(SearchArray())
+            memcpy(character.name,source,strlen(source)+1);
+            memcpy(relationship.name,target,strlen(target)+1);
+            relationship.weight = ConvertStringToInt(weightString,strlen(weightString));
             //Gör loopen redo för nästa rad
             lineNumber++;
             type=0;
