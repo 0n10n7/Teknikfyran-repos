@@ -17,20 +17,14 @@ int ConvertStringToInt(char string[],int length){
     }
     return returnVal;
 }
-bool SearchArray(char goal[],char target[]){//fel fixa
+int SearchArray(char goal[],char target[][20]){//fel fixa
     int i=0;
-    while(true){
-        if(goal[i]=='\0'&&target[i]=='\0'){
-            return true;
+    for(int i; i < NUM_ENTRIES; i++){
+        if (0 == strcmp(goal, target[i])){
+            return i; 
         }
-        else if(goal[i]=='\0'||target[i]=='\0'){
-            return false;
-        }
-        if(goal[i]!=target[i]){
-            return false;
-        }
-        i++;
     }
+    return -1;
 }
 
 typedef struct Relationship
@@ -67,9 +61,22 @@ int main(){
         index++;
         if(lineChar=='\0'){
             //Matar in all data som samlats från raden till korrekt plats
-            if(SearchArray())
-            memcpy(character.name,source,strlen(source)+1);
+
+            //Lägger till source till karaktär arrayn om den inte finns där en
+            if(-1==SearchArray(source,characters)){
+                memcpy(character.name,source,strlen(source)+1);
+                memcpy(characters[currentCharacterIndex],source,strlen(source)+1);
+                currentCharacterIndex++;
+            }
+            //Om targetet inte finns i karaktär arrayn så läges den till
+            if(-1==SearchArray(target,characters)){
+                memcpy(character.name,target,strlen(target)+1);
+                memcpy(characters[currentCharacterIndex],target,strlen(target)+1);
+                currentCharacterIndex++;
+            }
+
             memcpy(relationship.name,target,strlen(target)+1);
+            
             relationship.weight = ConvertStringToInt(weightString,strlen(weightString));
             //Gör loopen redo för nästa rad
             lineNumber++;
