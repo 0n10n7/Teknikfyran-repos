@@ -37,6 +37,7 @@ typedef struct Character
 {
     char name[20];
     Relationship relationships[50];
+    int relationCount;
 }Character;
 
 
@@ -57,6 +58,7 @@ int main(){
     //Läser in filen rad för rad
     while (fscanf(fptr, "%c", lineChar) != EOF) {
         Character character;
+        character.relationCount = 0;
         Relationship relationship;
         index++;
         if(lineChar=='\0'){
@@ -76,8 +78,9 @@ int main(){
             }
 
             memcpy(relationship.name,target,strlen(target)+1);
-            
             relationship.weight = ConvertStringToInt(weightString,strlen(weightString));
+
+            character.relationships[]
             //Gör loopen redo för nästa rad
             lineNumber++;
             type=0;
