@@ -21,7 +21,7 @@ Pathfinding, hexagonal terrain generation, Dijkstra's algroithm
 ## Credit
 ME!
 
-##User instructions 
+## User instructions 
 Very hard to give without having designed anyhting yet
 
 ## Licence
