@@ -28,6 +28,11 @@ int SearchArray(char goal[],char target[][20]){
     return -1;
 }
 
+//funktion för qsort
+int StringCompare(const void *a,const void *b) {
+    return (strcmp((char *)a,(char *)b));
+}
+
 typedef struct Relationship
 {
     char name[20];
@@ -36,7 +41,6 @@ typedef struct Relationship
 
 typedef struct Character
 {
-    char name[20];
     Relationship relationships[50];
     int relationCount;
 }Character;
@@ -72,20 +76,16 @@ int main(){
             //Lägger till source till karaktär arrayn om den inte finns där en
             if(-1==SearchArray(source,characters)){
                 currentCharacterIndex++;
-                memcpy(character.name,source,strlen(source)+1);
                 structCharacters[currentCharacterIndex]=character;
                 memcpy(characters[currentCharacterIndex],source,strlen(source)+1);
-                printf("lägger till s:%s c:%s ca:%s\n",source,character.name,characters[currentCharacterIndex]);
                 
             }
             //Om targetet inte finns i karaktär arrayn så läges den till
             if(-1==SearchArray(target,characters)){
                 currentCharacterIndex++;
                 Character Target;
-                memcpy(Target.name,target,strlen(target)+1);
                 memcpy(characters[currentCharacterIndex],target,strlen(target)+1);
                 structCharacters[currentCharacterIndex]=Target;
-                printf("lägger till t:%s c:%s ca:%s\n",target,Target.name,characters[currentCharacterIndex]);
             }
             strcpy(relationship.name,target);
             relationship.weight = ConvertStringToInt(weightString,strlen(weightString));
@@ -143,9 +143,18 @@ int main(){
     }
     while(true){
         char whatToDo;
+        char sortedCharacters[NUM_ENTRIES][20];
+        memcpy(sortedCharacters,characters,NUM_ENTRIES*20);
         scanf("%c",&whatToDo);
         if(whatToDo=='l'){
-
+            qsort(sortedCharacters,NUM_ENTRIES,20,StringCompare);
+            for (int i = 0; i < NUM_ENTRIES; i++)
+                {
+                    // if(sortedCharacters[i][0]=='\0'){
+                    //     break;
+                    // }
+                    printf("%s\n",sortedCharacters[i]);
+                }
         }
         if(whatToDo=='r'){
 
