@@ -4,7 +4,7 @@
 #include <stdbool.h> 
 #include <time.h>
 
-#define NUM_ENTRIES 353
+#define NUM_ENTRIES 352
 
 int ConvertStringToInt(char string[],int length){
     int returnVal=0;
@@ -17,11 +17,12 @@ int ConvertStringToInt(char string[],int length){
     }
     return returnVal;
 }
-int SearchArray(char goal[],char target[][20]){//fel fixa
-    int i=0;
-    for(int i; i < NUM_ENTRIES; i++){
+int SearchArray(char goal[],char target[][20]){
+    // printf("Comparing goal:%s target:%s\n",goal,target[i]);
+    for(int i=0; i < NUM_ENTRIES; i++){
         if (0 == strcmp(goal, target[i])){
             return i; 
+            
         }
     }
     return -1;
@@ -29,7 +30,7 @@ int SearchArray(char goal[],char target[][20]){//fel fixa
 
 typedef struct Relationship
 {
-    char* name;
+    char name[20];
     int weight;
 }Relationship;
 
@@ -42,60 +43,61 @@ typedef struct Character
 
 
 int main(){
+    printf("START\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     char characters[NUM_ENTRIES][20] = { 0 };
-    int currentCharacterIndex = 0;
+    Character structCharacters[NUM_ENTRIES] = { 0 };
+    int currentCharacterIndex = -1;
     
     char source[20] = { 0 };
     char target[20] = { 0 };
     char weightString[3]= { 0 };
     int weight = 0;
-    char lineChar = ' ';
-    int lineNumber = 0;
+    char lineChar;
     int index = 0;
     int type = 0; //om type är 0 så är det source som arbetas med, 1 är target och 2 är weight
-
+    puts("Entering While loop");//Debugging
     FILE* fptr = fopen("thrones.csv", "r");
     //Läser in filen rad för rad
-    while (fscanf(fptr, "%c", lineChar) != EOF) {
+
+    while (fscanf(fptr, "%c", &lineChar) != EOF) {
+        // printf("%c",lineChar);//Debugging 
         Character character;
         character.relationCount = 0;
         Relationship relationship;
-        index++;
-        if(lineChar=='\0'){
+
+        if(lineChar=='\n'){
+            printf("\n");//Debugging
             //Matar in all data som samlats från raden till korrekt plats
 
             //Lägger till source till karaktär arrayn om den inte finns där en
             if(-1==SearchArray(source,characters)){
-                memcpy(character.name,source,strlen(source)+1);
-                memcpy(characters[currentCharacterIndex],source,strlen(source)+1);
                 currentCharacterIndex++;
+                memcpy(character.name,source,strlen(source)+1);
+                structCharacters[currentCharacterIndex]=character;
+                memcpy(characters[currentCharacterIndex],source,strlen(source)+1);
+                printf("lägger till s:%s c:%s ca:%s\n",source,character.name,characters[currentCharacterIndex]);
+                
             }
             //Om targetet inte finns i karaktär arrayn så läges den till
             if(-1==SearchArray(target,characters)){
-                memcpy(character.name,target,strlen(target)+1);
-                memcpy(characters[currentCharacterIndex],target,strlen(target)+1);
                 currentCharacterIndex++;
+                Character Target;
+                memcpy(Target.name,target,strlen(target)+1);
+                memcpy(characters[currentCharacterIndex],target,strlen(target)+1);
+                structCharacters[currentCharacterIndex]=Target;
+                printf("lägger till t:%s c:%s ca:%s\n",target,Target.name,characters[currentCharacterIndex]);
             }
-
-            memcpy(relationship.name,target,strlen(target)+1);
+            strcpy(relationship.name,target);
             relationship.weight = ConvertStringToInt(weightString,strlen(weightString));
-
-            character.relationships[]
-            //Gör loopen redo för nästa rad
-            lineNumber++;
-            type=0;
-            for (int i = 0; i < 20; i++)
-            {
-                source[i]=0;
-                target[i]=0;
-            }
-            for (int i = 0; i<3;i++){
-                weightString[i]=0;
-            }
             
+            //Gör loopen redo för nästa rad
+            index=-1;
+            type=0;
         }
-        else if(lineChar==','){
 
+        else if(lineChar==','){
+            
+            printf("%c",lineChar);//debugging
             if(type==0){//source
                 source[index]='\0';
             }
@@ -107,31 +109,50 @@ int main(){
             {
                 weightString[index]='\0';
             }
+            index=-1;
             type++;
         }
-        if(type==0){//source
+        else if(type==0){//source
             source[index]=lineChar;
+            printf("%c",source[index]);
         }
         else if (type==1)//target
         {
             target[index]=lineChar;
+            printf("%c",target[index]);
         }
-        else if (type==2)//
+        else if (type==2)//weight
         {
-            source[index]=lineChar;
+            weightString[index]=lineChar;
+            printf("%c",weightString[index]);
         }
-        
-        characters[lineNumber][5] = '\0'; //positionen måste ändras
-
-        for(int i = 0; i<20; i++){
-            source[i]=0;
-            target[i]=0;
+        if(currentCharacterIndex==352){
+            break;
         }
-        lineNumber++;
+        index++;
     }
-    
-
-    
     fclose(fptr);
-    return 0;
+
+    puts("While loop finnished");
+    for (int i = 0; i < NUM_ENTRIES; i++)
+    {
+        if(characters[i][0]=='\0'){
+            break;
+        }
+        printf("%s\n",characters[i]);
+    }
+    while(true){
+        char whatToDo;
+        scanf("%c",&whatToDo);
+        if(whatToDo=='l'){
+
+        }
+        if(whatToDo=='r'){
+
+        }
+        if(whatToDo=='q'){
+            puts("Exiting");
+            return 0;
+        }   
+    }
 }
