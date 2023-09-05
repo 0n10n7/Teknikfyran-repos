@@ -162,7 +162,7 @@ int main(){
 
     //Output
     while(true){
-
+        fflush(stdin);
         char whatToDo;
         char sortedCharacters[NUM_ENTRIES][20];
         memcpy(sortedCharacters,characters,NUM_ENTRIES*20);
