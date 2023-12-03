@@ -1,5 +1,5 @@
 {
-  "name": "bundemo",
+  "name": "logistiksystem",
   "module": "src/index.js",
   "type": "module",
   "scripts": {
@@ -10,8 +10,5 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "elysia": "^0.7.29"
   }
 }
