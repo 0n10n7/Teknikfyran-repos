@@ -1,0 +1,17 @@
+{
+  "name": "bundemo",
+  "module": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.js"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "elysia": "^0.7.29"
+  }
+}

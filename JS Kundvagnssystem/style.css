@@ -1,0 +1,12 @@
+.shoppingWindow{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.shoppableItem{
+    border-width: 5px;
+    border-radius: 10px;
+    border-color: black;
+    margin: 20px;
+    padding: 20px;
+    background-color: rgb(17, 176, 17);
+}
